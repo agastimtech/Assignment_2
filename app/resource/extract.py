@@ -1,5 +1,4 @@
 import traceback
-
 import aiohttp_jinja2
 import jinja2
 from aiohttp import web
@@ -12,8 +11,6 @@ def extract_zip(zip_file):
             extracted_files.append(file_name)
             f.extract(file_name)
     return extracted_files
-# from app import logger
-# from app.service.random_string.generate_v1 import RandomStringGeneratorV1
 
 class Index(web.View):
     @aiohttp_jinja2.template('index.html')
@@ -29,10 +26,7 @@ class Upload(web.View):
         extracted_files=extract_zip(file)
         return {'extracted_files' : extracted_files}
 
-
 import os
-from aiohttp import web
-
 
 class Download(web.View):
     async def get(self):
@@ -46,7 +40,6 @@ class Download(web.View):
             headers = {
                 'Content-Disposition': f'attachment; filename="{file}"'
             }
-
             return web.Response(body=content, headers=headers)
         else:
             return web.Response(text=f'File not found: {file}', status=404)
